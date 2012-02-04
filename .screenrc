@@ -1,0 +1,53 @@
+# encode
+defutf8 on
+defkanji utf-8
+encoding utf-8 utf-8
+defencoding utf-8
+
+# set term
+term xterm-color
+
+# no start up message
+startup_message off
+
+# key
+escape ^j^j
+
+# don't remove windows from the window list as soon as window process exits
+zombie kr
+
+# enable to scroll by mouse or keyboard
+termcapinfo xterm* ti@:te@
+
+# scroll buffer
+defscrollback 10000
+markkeys h=^B:l=^F:$=^E
+
+# shortcut of screen with title option.
+bind s colon 'screen -t '
+
+# split and focus window
+#bindkey ^x command -c emacs
+#bind -c emacs 1 only
+#bind -c emacs 2 split
+#bind -c emacs 3 split -v
+#bind -c emacs '^' colon 'resize +'
+#bindkey ^t focus
+
+# list of all windows is displayed in the blank window for visual window selection.
+bind w windowlist -b -m
+bind ^w windowlist -b
+windowlist title '%{u .c}Num Flags Title%=[0-9] select the number [movement] j,C-n:Down k,C-p:Up (C-)f:PageDown (C-)b:PageUp'
+windowlist string '%{.c}%3n %f%09=%{dc} %t %='
+
+# hardstatus and caption
+# hardstatus on
+# hardstatus alwayslastline '%{= .c}%H%{-} %L=%-w%45L>%{=u ck}%n %t%{-}%+w %-17<%=%m/%d %02c'
+# caption always '%?%F%{= ck}%:%{= wk}%?%2n%f%07=%t%='
+# caption always '%L=%-w%45L>%{=u ck}%n %t%{-}%+w %-17<%=%m/%d %02c'
+caption always '%?%F%{= wk}%:%{= ww}%? %-w%{=bu dr}%n %t%{-}%+w %= %?%F%{=b ..}%:%{..}%?%m/%d %02c'
+
+sorendition '+rb .c'
+
+# default
+chdir

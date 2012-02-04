@@ -1,0 +1,33 @@
+[ -f ~/Dropbox/Settings/.zshenv ] && source ~/Dropbox/Settings/.zshenv
+
+# Environment variables
+export EDITOR=vim
+export ALTERNATE_EDITOR=emacs
+export RUBYLIB=/Library/Ruby/Site/1.8
+export TERM=xterm-color
+export PATH=$PATH:~/bin:~/Dropbox/bin
+
+# alias
+alias mvi="mvim --remote-tab-silent"
+alias e='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient'
+#alias emacs='emacs -nw'
+alias ls='ls -AGF'
+alias finder='open .'
+alias re='/Users/shinichi/programming/redcar/bin/redcar'
+alias vi='vim'
+alias javac='javac -J-Dfile.encoding=UTF-8'
+alias java='java -Dfile.encoding=UTF-8'
+#alias rm='gmv -f --backup=numbered --target-directory ~/.Trash'
+alias sshfs_centos='sshfs moba@centos:/ /Volumes/centos'
+alias ctags='/Applications/MacVim.app/Contents/MacOS/ctags "$@"'
+alias gs='git st'
+alias git-diff='git diff --no-ext-diff'
+
+# shell functions for Redcar
+function re_spec() {
+    jruby -J-XstartOnFirstThread -S spec plugins/$1/spec/
+}
+
+function re_cuke() {
+    jruby -J-XstartOnFirstThread bin/cucumber --exclude ".*fixtures.*" plugins/$1/features
+}

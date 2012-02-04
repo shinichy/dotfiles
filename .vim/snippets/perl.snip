@@ -1,0 +1,22 @@
+snippet sql 
+    my $dbh = DA::getHandle($_::DB_USER_${1:R});
+    my $sth = $dbh->prepare(<<'SQL');
+    ${2:# sql}
+    SQL
+    $sth->execute(${0});
+
+snippet stash
+	my $stash = +{
+		${1:key} => ${2:value} || '',
+        ${0}
+	};
+
+snippet arg
+	if (@_ != ${1:2}) {
+		MException::error("invalid argument");
+	}
+    ${0}
+
+snippet showhref
+	map { MLog::write($_::LOG_FCGI_DBG, "$_, $${1}->{$_}")} keys %${1};
+    ${0}

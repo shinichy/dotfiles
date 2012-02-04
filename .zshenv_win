@@ -1,0 +1,12 @@
+[ -f "/cygdrive/c/My Dropbox/Settings/.zshenv" ] && source "/cygdrive/c/My Dropbox/Settings/.zshenv"
+
+# Environment variables
+export EDITOR=emacs
+export ALTERNATE_EDITOR=emacs
+export PATH=/usr/local/ruby/bin:$PATH
+
+# alias
+alias e='emacs'
+alias ls='ls -AGF --color=auto'
+alias gem='/usr/local/ruby/bin/gem.bat'
+alias re='/usr/local/bin/launch_redcar'
