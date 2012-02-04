@@ -1,4 +1,4 @@
-[ -f ~/Dropbox/Settings/.zshenv ] && source ~/Dropbox/Settings/.zshenv
+[ -f .zshenv.common ] && source .zshenv.common
 
 # Environment variables
 export EDITOR=vim

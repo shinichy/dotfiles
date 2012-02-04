@@ -18,7 +18,7 @@ ln -s $DOTFILES/.gvimrc $HOME/.gvimrc
 ln -s $DOTFILES/.tmux.conf $HOME/.tmux.conf
 ln -s $DOTFILES/.vim $HOME/.vim
 ln -s $DOTFILES/.vimrc $HOME/.vimrc
-ln -s $DOTFILES/.zshenv.mac $HOME/.zshenv.mac
+ln -s $DOTFILES/.zshenv.mac $HOME/.zshenv
 ln -s $DOTFILES/.zshrc $HOME/.zshrc
 
 vim -c ':NeoBundleInstall!'
