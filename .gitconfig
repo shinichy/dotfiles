@@ -1,0 +1,20 @@
+[user]
+	name = Shinichi Katayama
+[alias]
+	st = status
+	co = checkout
+	br = branch
+[color]
+	ui = true
+[core]
+	pager = nkf -w | LESSCHARSET=utf-8 less
+[merge]
+	keepBackup = false;
+	tool = p4merge
+[mergetool "p4merge"]
+	cmd = p4merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
+	keepTemporaries = false
+	trustExitCode = false
+	keepBackup = false
+[diff]
+	external = p4diff
