@@ -1,3 +1,7 @@
+let g:molokai_original = 1
+set t_Co=256
+colorscheme molokai
+
 " Vim起動時のメッセージを表示しない
 :set shortmess+=I
 
@@ -33,6 +37,15 @@ set number
 " カラー表示
 "set bg=light
 syntax on
+
+"全角スペースを視覚化
+highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=#666666
+au BufNewFile,BufRead * match ZenkakuSpace /　/
+
+"特殊文字(SpecialKey)の見える化。listcharsはlcsでも設定可能。
+"trailは行末スペース。
+"set list
+"set listchars=tab:>-,trail:-,nbsp:%,extends:>,precedes:<
 
 "set autoindent smartindent       " プログラミング用に自動インデントする
 set cindent
@@ -87,8 +100,17 @@ nnoremap <silent> <Space>h :noh<CR>
 set autowrite
 " set autowriteall
 
-autocmd CursorHold *  wall
-autocmd CursorHoldI *  wall
+"autocmd CursorHold *  wall
+"autocmd CursorHoldI *  wall
+
+" (),[],{},<>,””,’’,“入力+()の中にカーソル戻す
+"delimitMate入れたので一旦無効
+"imap {} {}<Left>
+"imap [] []<Left>
+"imap () ()<Left>
+"imap "" ""<Left>
+"imap '' ''<Left>
+"imap <> <><Left>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " neobundle
@@ -120,6 +142,9 @@ NeoBundle 'thinca/vim-qfreplace'
 NeoBundle 'thinca/vim-localrc'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'scrooloose/nerdcommenter'
+NeoBundle 'Raimondi/delimitMate'
+NeoBundle 'mattn/zencoding-vim'
+NeoBundle 'tpope/vim-surround'
 " vim-scripts repos
 " non github repos
 "NeoBundle 'git://git.wincent.com/command-t.git'
