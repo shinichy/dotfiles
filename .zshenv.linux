@@ -1,0 +1,11 @@
+[ -f .zshenv.common ] && source .zshenv.common
+
+# Environment variables
+export EDITOR=vim
+export ALTERNATE_EDITOR=emacs
+export PATH=/usr/local/bin:$PATH
+
+# alias
+alias ls='ls -AGF --color=auto'
+alias sudo=' sudo '
+alias v='vim'

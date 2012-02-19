@@ -14,11 +14,16 @@ cd $DOTFILES
 git submodule update --init
 
 ln -s $DOTFILES/.gitconfig $HOME/.gitconfig
-ln -s $DOTFILES/.gvimrc $HOME/.gvimrc
 ln -s $DOTFILES/.tmux.conf $HOME/.tmux.conf
 ln -s $DOTFILES/.vim $HOME/.vim
 ln -s $DOTFILES/.vimrc $HOME/.vimrc
-ln -s $DOTFILES/.zshenv.mac $HOME/.zshenv
 ln -s $DOTFILES/.zshrc $HOME/.zshrc
+ln -s $DOTFILES/.ackrc $HOME/.ackrc
+if [ "`uname -s`" = "Darwin" ]; then
+	ln -s $DOTFILES/.zshenv.mac $HOME/.zshenv
+	ln -s $DOTFILES/.gvimrc $HOME/.gvimrc
+elif [ "`uname -s`" = "Linux" ]; then
+	ln -s $DOTFILES/.zshenv.linux $HOME/.zshenv
+fi
 
 vim -c ':NeoBundleInstall!'

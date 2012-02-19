@@ -1,9 +1,18 @@
 snippet sql 
     my $dbh = DA::getHandle($_::DB_USER_${1:R});
-    my $sth = $dbh->prepare(<<'SQL');
-    ${2:# sql}
-    SQL
+    my $sth = $dbh->prepare(<<"SQL");
+    ${2:#sql}
+ SQL
     $sth->execute(${0});
+
+snippet     fetch
+abbr        fetchrow_arrayref
+    while (my $aref = $sth->fetchrow_arrayref()) {
+        my ($${1}) = @$aref;
+        ${2}
+    }
+    ${0}
+
 
 snippet stash
 	my $stash = +{
@@ -12,11 +21,68 @@ snippet stash
 	};
 
 snippet arg
-	if (@_ != ${1:2}) {
+    my ($${1}) = @_;
+	unless (@_ == ${2:2} && ${3}) {
+		for (my $i = 0; $i < scalar(@_); $i++) {
+			MLog::write($_::LOG_FCGI_DBG, "p$i: $_[$i]");
+		}
 		MException::error("invalid argument");
 	}
     ${0}
 
-snippet showhref
-	map { MLog::write($_::LOG_FCGI_DBG, "$_, $${1}->{$_}")} keys %${1};
+snippet loghr
+abbr map { MLog::write($_::LOG_FCGI_DBG, "$_, $hashref->{$_}")} keys %hashref;
+	map { MLog::write($_::LOG_FCGI_DBG, "$_, $R->{$_}")} keys %${1};
+
+snippet log
+abbr MLog::write($_::LOG_FCGI_DBG, "var: $var");
+	MLog::write($_::LOG_FCGI_DBG, "${1}: $$1");
+
+snippet logm
+abbr MLog::write($_::LOG_FCGI_DBG, "message");
+	MLog::write($_::LOG_FCGI_DBG, "${0}");
+
+snippet cm
+	#---------------------------------------
+	# ${0}
+
+snippet package
+    package ${1};
+
+    use strict;
+    use warnings;
+
+    use Readonly;
+
     ${0}
+
+    1;
+
+snippet as
+abbr        assert
+    assert(${0}) if DEBUG;
+
+snippet err
+abbr        MException::error("message");
+    MException::error("${0}");
+
+snippet warn
+abbr        MException::warn("message");
+    MException::warn("${0}");
+
+snippet chgfunc
+abbr MException::throw({ CHG_FUNC => '.top' });
+    MException::throw({ CHG_FUNC => '${0}' });
+
+snippet localtime
+abbr localtime($time)
+    ($sec,$min,$hour,$mday,$month,$year,$wday,$stime) = localtime(${0});
+
+snippet     include
+abbr        my $include = sub { (grep { $_ eq $_[0] } @a) > 0 };
+    my $include = sub { (grep { $_ eq $_[0] } @${0}) > 0 };
+
+snippet     else
+    else {
+        ${0}
+    }
