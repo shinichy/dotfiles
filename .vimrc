@@ -165,6 +165,10 @@ NeoBundle 'c9s/perlomni.vim'
 "NeoBundle 't9md/vim-unite-ack'
 " vim-scripts repos
 NeoBundle 'sudo.vim'
+"NeoBundle 'Source-Explorer-srcexpl.vim'
+"NeoBundle 'trinity.vim'
+"NeoBundle 'The-NERD-tree'
+"NeoBundle 'taglist.vim'
 " non github repos
 "NeoBundle 'git://git.wincent.com/command-t.git'
 " non git repos
@@ -286,6 +290,7 @@ aug VimFilerKeyMapping
         " キーマップのカスタマイズ
 		nmap <buffer> <C-l> <C-w>l
 		nmap <buffer> <C-j> <C-w>j
+		nmap <buffer> <Enter> e
     endfunction
 aug END
 

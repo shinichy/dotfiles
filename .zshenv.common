@@ -1,2 +1,8 @@
 # alias
 alias countcs='wc -l `find . -name "*.cs"`'
+alias gs='git st'
+alias gd='git diff -b'
+alias gl='git log'
+alias glp='git log -p'
+alias gls='git log --stat'
+alias tmux="TERM=screen-256color-bce tmux"
