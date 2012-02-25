@@ -33,10 +33,13 @@ set number
 " テーマ設定
 syntax enable
 set background=dark
+"set t_Co=256
+"let g:solarized_termcolors = 16
+"let g:solarized_visibility = "high"
+"let g:solarized_contrast = "high"
 colorscheme solarized
 
 "let g:molokai_original = 1
-"set t_Co=256
 "colorscheme molokai
 
 "全角スペースを視覚化
@@ -158,6 +161,7 @@ NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'mattn/zencoding-vim'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'c9s/perlomni.vim'
 "NeoBundle 't9md/vim-unite-ack'
 " vim-scripts repos
 NeoBundle 'sudo.vim'
@@ -167,7 +171,7 @@ NeoBundle 'sudo.vim'
 "NeoBundle 'http://svn.macports.org/repository/macports/contrib/mpvim/'
 "NeoBundle 'https://bitbucket.org/ns9tks/vim-fuzzyfinder'
 
-filetype plugin on     " required!
+filetype plugin indent on     " required!
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ unite.vim
@@ -201,6 +205,16 @@ nnoremap <silent> [unite]r  :<C-u>Unite -buffer-name=register register<CR>
 nnoremap <silent> [unite]p :<C-u>call <SID>unite_grep_project('')<CR>
 " perldoc
 nnoremap <silent> [unite]d:<C-u>Unite ref/perldoc<CR>
+" インクリメンタルサーチ中にUnite line
+cnoremap <expr> <C-o>  getcmdtype() == '/'
+            \ ? '<Esc>:<C-u>nohlsearch\|exe "Unite -input=" . escape(@/," ") . " line:forward"<CR>'
+            \ : getcmdtype() == '?'
+            \ ? '<Esc>:<C-u>nohlsearch\|exe "Unite -input=" . escape(@/," ") . " line:backward"<CR>'
+            \ : "\<C-o>"
+
+" occur(=Unite lines) forward/backward
+nnoremap ]o :UniteWithCursorWord line:forward<CR>
+nnoremap [o :UniteWithCursorWord line:backward<CR>
 
 " For optimize.
 let g:unite_source_file_mru_filename_format = ''

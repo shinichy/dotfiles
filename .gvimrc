@@ -8,7 +8,7 @@ set guifont=Ricty:h14
 
 set nohlsearch				" 検索文字をハイライトしない
 set antialias               " アンチエイリアシング
-set transparency=3          " 半透明
+"set transparency=3          " 半透明
 set guioptions-=T           " ツールバー削除
 
 " カーソル点滅無効化

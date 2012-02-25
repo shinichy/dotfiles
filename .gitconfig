@@ -16,5 +16,3 @@
 	keepTemporaries = false
 	trustExitCode = false
 	keepBackup = false
-[diff]
-	external = p4diff
