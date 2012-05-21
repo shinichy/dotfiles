@@ -1,0 +1,9 @@
+set ignorecase
+set smartcase
+
+"to upper case word before
+inoremap <C-g><C-u> <ESC>gUiwbea
+
+" ;でExコマンド入力( ;と:を入れ替)
+noremap ; :
+noremap : ;
