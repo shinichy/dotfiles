@@ -31,3 +31,6 @@ function re_spec() {
 function re_cuke() {
     jruby -J-XstartOnFirstThread bin/cucumber --exclude ".*fixtures.*" plugins/$1/features
 }
+
+# enable vim use C-s and C-q
+stty -ixon -ixoff

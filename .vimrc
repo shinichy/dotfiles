@@ -1,6 +1,55 @@
 " vi互換モードをOFF
 set nocompatible
 
+"コンパイラの指定
+autocmd FileType perl,cgi :compiler perl
+
+ " perltidy
+map ,ptv <Esc>:'<,'>! perltidy -q<CR>
+map ,pta <Esc>:%s! perltidy -q<CR>
+
+" Remove trailing space
+autocmd BufWritePre * %s/\s\+$//e
+
+""""""""""""""""""""""""""""""
+"挿入モード時、ステータスラインの色を変更
+""""""""""""""""""""""""""""""
+let g:hi_insert = 'highlight StatusLine guifg=darkblue guibg=darkyellow gui=none ctermfg=blue ctermbg=yellow cterm=none'
+
+if has('syntax')
+  augroup InsertHook
+    autocmd!
+    autocmd InsertEnter * call s:StatusLine('Enter')
+    autocmd InsertLeave * call s:StatusLine('Leave')
+  augroup END
+endif
+
+let s:slhlcmd = ''
+function! s:StatusLine(mode)
+  if a:mode == 'Enter'
+    silent! let s:slhlcmd = 'highlight ' . s:GetHighlight('StatusLine')
+    silent exec g:hi_insert
+  else
+    highlight clear StatusLine
+    silent exec s:slhlcmd
+  endif
+endfunction
+
+function! s:GetHighlight(hi)
+  redir => hl
+  exec 'highlight '.a:hi
+  redir END
+  let hl = substitute(hl, '[\r\n]', '', 'g')
+  let hl = substitute(hl, 'xxx', '', '')
+  return hl
+endfunction
+
+"タブを常に表示
+set showtabline=2
+
+"バックスペースでインデントや改行を削除できるようにする
+set backspace=indent,eol,start
+
 "外部で変更のあったファイルを自動的に再読み込み
 set autoread
 
@@ -33,14 +82,7 @@ set number
 " テーマ設定
 syntax enable
 set background=dark
-"set t_Co=256
-"let g:solarized_termcolors = 16
-"let g:solarized_visibility = "high"
-"let g:solarized_contrast = "high"
 colorscheme solarized
-
-"let g:molokai_original = 1
-"colorscheme molokai
 
 "全角スペースを視覚化
 highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=#666666
@@ -52,16 +94,24 @@ au BufNewFile,BufRead * match ZenkakuSpace /　/
 "set listchars=tab:>-,trail:-,nbsp:%,extends:>,precedes:<
 
 "set autoindent smartindent       " プログラミング用に自動インデントする
-set cindent
+"set cindent
 
 " タブ
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+"set tabstop=4
+"set softtabstop=4
+"set shiftwidth=4
+
+" format option
+set formatoptions-=r " 挿入モードで改行した時に # を自動挿入しない
+set formatoptions-=o " ノーマルモードで o や O をした時に # を自動挿入しない
 
 " 直前の単語を大文字に
 " http://d.hatena.ne.jp/h1mesuke/20100905/p1
 inoremap <C-g><C-u> <ESC>gUiw`]a
+
+" ;でExコマンド入力( ;と:を入れ替)
+noremap ; :
+noremap : ;)
 
 " 文字コード自動認識
 :set fileencodings=iso-2022-jp,euc-jp,sjis,utf-8
@@ -112,6 +162,13 @@ set autowrite
 " show useful information on status line
 set statusline=%t\ %m%r%h%w[%Y][%{&fenc}:%{&ff}]%=%c,%l%11p%%
 
+" 入力モード時、ステータスラインのカラーを変更
+augroup InsertHook
+	autocmd!
+	autocmd InsertEnter * highlight StatusLine ctermfg=black      ctermbg=lightgreen guifg=#2E4340 guibg=#ccdc90
+	autocmd InsertLeave * highlight StatusLine ctermfg=lightgreen ctermbg=black      guifg=black   guibg=#c2bfa5
+augroup END
+
 " .vimrcを読み込むたびに以下の設定がリセットされてしまうので、ここにも書いておく。
 " MacVimのvimrcからコピペしてきた。
 if has('multi_byte_ime') || has('xim') || has('gui_macvim')
@@ -157,13 +214,14 @@ NeoBundle 'thinca/vim-qfreplace'
 NeoBundle 'thinca/vim-localrc'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'scrooloose/nerdcommenter'
-"NeoBundle 'Raimondi/delimitMate'    有効にすると日本語変換中にエンターで改行されてしまう
+NeoBundle 'Raimondi/delimitMate'    "有効にすると日本語変換中にエンターで改行されてしまう
 NeoBundle 'mattn/zencoding-vim'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'c9s/perlomni.vim'
 "NeoBundle 't9md/vim-unite-ack'
 " vim-scripts repos
+NeoBundle 'Align'
 NeoBundle 'sudo.vim'
 "NeoBundle 'Source-Explorer-srcexpl.vim'
 "NeoBundle 'trinity.vim'
@@ -204,17 +262,20 @@ nnoremap <silent> [unite]t :<C-u>call <SID>unite_project('-start-insert')<CR>
 " outline
 nnoremap <silent> [unite]o :<C-u>Unite outline<CR>
 " register
-nnoremap <silent> [unite]r  :<C-u>Unite -buffer-name=register register<CR>
+nnoremap <silent> [unite]re :<C-u>Unite -buffer-name=register register<CR>
  "grep project
-nnoremap <silent> [unite]p :<C-u>call <SID>unite_grep_project('')<CR>
-" perldoc
-nnoremap <silent> [unite]d:<C-u>Unite ref/perldoc<CR>
+nnoremap <silent> [unite]g :<C-u>call <SID>unite_grep_project('')<CR>
+" Unite ref
+nnoremap <silent> [unite]rm  :<C-u>UniteWithCursorWord -start-insert ref/man<CR>
+nnoremap <silent> [unite]rp  :<C-u>UniteWithCursorWord -start-insert ref/perldoc<CR>
 " インクリメンタルサーチ中にUnite line
 cnoremap <expr> <C-o>  getcmdtype() == '/'
             \ ? '<Esc>:<C-u>nohlsearch\|exe "Unite -input=" . escape(@/," ") . " line:forward"<CR>'
             \ : getcmdtype() == '?'
             \ ? '<Esc>:<C-u>nohlsearch\|exe "Unite -input=" . escape(@/," ") . " line:backward"<CR>'
             \ : "\<C-o>"
+" line
+nnoremap <silent> [unite]l  :<C-u>Unite line<CR>
 
 " occur(=Unite lines) forward/backward
 nnoremap ]o :UniteWithCursorWord line:forward<CR>
@@ -248,7 +309,7 @@ endfunction
 function! s:unite_project(...)
   let opts = (a:0 ? join(a:000, ' ') : '')
   let dir = unite#util#path2project_directory(expand('%'))
-  execute 'Unite' opts ' -buffer-name=files file_rec/async:' . dir 
+  execute 'Unite' opts ' -buffer-name=files file_rec/async:' . dir
 endfunction
 
 let g:unite_source_file_rec_ignore_pattern = '\%(\.cpan\|\.git\|\.subversion\|\.vim\|\.bin\|/data/\)'
@@ -264,7 +325,7 @@ endfunction
 " For ack.
 if executable('ack')
   let g:unite_source_grep_command = 'ack'
-  let g:unite_source_grep_default_opts = '--no-heading --no-color --type=perl'
+  let g:unite_source_grep_default_opts = '--no-heading --no-color --type=ruby'
 endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -372,4 +433,4 @@ endif
 " ユーザー定義スニペット保存ディレクトリ
 let g:neocomplcache_snippets_dir = $HOME.'/.vim/snippets'
 "スニペットファイルを編集する
-nnoremap <Space>es :NeoComplCacheEditSnippets 
+nnoremap <Space>es :NeoComplCacheEditSnippets
