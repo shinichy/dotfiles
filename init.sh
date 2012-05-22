@@ -24,6 +24,7 @@ if [ "`uname -s`" = "Darwin" ]; then
 	ln -s $DOTFILES/.gvimrc $HOME/.gvimrc
 elif [ "`uname -s`" = "Linux" ]; then
 	ln -s $DOTFILES/.zshenv.linux $HOME/.zshenv
+elif echo "`uname -s`" | grep -q "CYGWIN"; then
+	ln -s $DOTFILES/.zshenv.win $HOME/.zshenv
+	ln -s $DOTFILES/.vrapperrc $HOME/.vrapperrc
 fi
-
-vim -c ':NeoBundleInstall!'
