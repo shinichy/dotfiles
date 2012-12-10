@@ -5,13 +5,13 @@ encoding utf-8 utf-8
 defencoding utf-8
 
 # set term
-term xterm-color
+term xterm-256color
 
 # no start up message
 startup_message off
 
 # key
-escape ^j^j
+escape ^z^z
 
 # don't remove windows from the window list as soon as window process exits
 zombie kr

@@ -1,12 +1,17 @@
-[ -f "/cygdrive/c/My Dropbox/Settings/.zshenv" ] && source "/cygdrive/c/My Dropbox/Settings/.zshenv"
+[ -f "~/Dropbox/dotfiles/.zshenv" ] && source "~/Dropbox/dotfiles/.zshenv"
 
 # Environment variables
-export EDITOR=emacs
+export EDITOR=vim
 export ALTERNATE_EDITOR=emacs
-export PATH=/usr/local/ruby/bin:$PATH
+export PATH=/usr/local/bin:/usr/local/ruby/bin:$PATH
+export SHELL=/bin/zsh
 
 # alias
-alias e='emacs'
-alias ls='ls -AGF --color=auto'
+alias vim='gvim --remote-tab-silent'
+alias ls='ls -AG --color=auto'
 alias gem='/usr/local/ruby/bin/gem.bat'
-alias re='/usr/local/bin/launch_redcar'
+alias subl="/cygdrive/c/Program\ Files/Sublime\ Text\ 2/sublime_text.exe"
+
+source ~/Dropbox/Settings/mintty/sol.dark
+
+cd ~
